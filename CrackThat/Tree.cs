@@ -16,12 +16,49 @@ namespace CrackThat
 
         public TreeNode Root { get => this.root; }
 
+        public TreeNode AddNode(int data, TreeNode previosNode, bool toLeft)
+        {
+            if (this.root == null)
+            {
+                this.root = new TreeNode();
+                this.root.data = data;
+                this.root.parent = null;
+                return this.root;
+            }
+
+            if (toLeft)
+            {
+                while(previosNode.left != null)
+                {
+                    previosNode = previosNode.left;
+                }
+
+                previosNode.left = new TreeNode();
+                previosNode.left.parent = previosNode;
+                previosNode.left.data = data;
+                return previosNode.left;
+            }
+            else
+            {
+                while (previosNode.right != null)
+				{
+					previosNode = previosNode.right;
+				}
+
+				previosNode.right = new TreeNode();
+				previosNode.right.parent = previosNode;
+                previosNode.right.data = data;
+                return previosNode.right;
+            }
+        }
+
         public void AddNode(int data, bool toLeft)
         {
             if (this.root == null)
             {
                 this.root = new TreeNode(data);
                 this.currentNode = this.root;
+                this.currentNode.parent = null;
                 return;
             }
 
@@ -29,12 +66,14 @@ namespace CrackThat
             {
                 TreeNode left = new TreeNode(data);
                 this.currentNode.left = left;
+                this.currentNode.left.parent = this.currentNode;
                 this.currentNode = this.currentNode.left;
             }
             else 
             {
 				TreeNode right = new TreeNode(data);
 				this.currentNode.right = right;
+                this.currentNode.right.parent = this.currentNode;
 				this.currentNode = this.currentNode.right;
             }
         }
@@ -44,10 +83,37 @@ namespace CrackThat
             if (this.root == null)
             {
                 this.currentNode = this.root = new TreeNode(data);
+                this.currentNode.parent = null;
                 return;
             }
 
             this._addBSTNodeUtil(data, root);   
+        }
+
+        public TreeNode GetNodeWithData(int data)
+        {
+            return this._getTreeNdoeWithData(this.Root, data);   
+        }
+
+        private TreeNode _getTreeNdoeWithData(TreeNode node, int data)
+        {
+            if (node == null)
+            {
+                return null;
+            }
+
+            if (node.data == data)
+            {
+                return node;
+            }
+            else if (node.data > data)
+            {
+                return _getTreeNdoeWithData(node.left, data);
+            }
+            else 
+            {
+                return _getTreeNdoeWithData(node.right, data);
+            }
         }
 
         private void _addBSTNodeUtil(int data, TreeNode node)
@@ -58,6 +124,7 @@ namespace CrackThat
                 {
                     node.left = new TreeNode(data);
                     this.currentNode = node.left;
+                    this.currentNode.parent = node;
                     return;
                 }
                 else
@@ -71,6 +138,7 @@ namespace CrackThat
 				{
 					node.right = new TreeNode(data);
                     this.currentNode = node.right;
+                    this.currentNode.parent = node;
                     return;
 				}
 				else

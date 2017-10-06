@@ -5,7 +5,10 @@ namespace CrackThat
 	{
 		public TreeNode left;
 		public TreeNode right;
+        public TreeNode parent;
 		public int data;
+        public int childCount;
+        public int bit;
 
 		public TreeNode()
 		{

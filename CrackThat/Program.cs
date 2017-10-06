@@ -50,17 +50,79 @@ namespace CrackThat
             tree.AddBSTNode(3);
             tree.AddBSTNode(9);
             tree.AddBSTNode(8);
-            tree.AddNode(12, true);
+            tree.AddBSTNode(12);
 
             Console.WriteLine();
             tree.printLevelWiseTree(tree.Root);
+   //         Console.WriteLine();
+   //         Console.WriteLine();
+   //         Console.WriteLine("Height of the tree is " + tree.GetTreeHeight(tree.Root));
+   //         Console.WriteLine("Is tree balanced :" + TreeProblems.IsTreeBalanced(tree.Root));
+   //         Console.WriteLine("Is tree binary search tree :" + TreeProblems.IsTreeBinarySearchTree(tree.Root));
+   //         TreeNode node1 = tree.GetNodeWithData(4);
+   //         TreeNode node2 = tree.GetNodeWithData(7);
+   //         Console.WriteLine("Lowest common ancestor of {0} and {1} ", 
+   //                           node1.data, node2.data + 
+   //                           " is " + 
+   //                           TreeProblems.GetLCA(tree.Root, node1, node2).data);
+            
+			//Console.WriteLine("Lowest common ancestor of {0} and {1} ",
+				  //node1.data, node2 .data +
+				  //" is " +
+      //            TreeProblems.GetLCAWithParentNodes(tree.Root, node1, node2).data);
+
+      //      Console.WriteLine("Successor of {0} ",
+				  //node1.data +
+				  //" is " +
+            //      TreeProblems.GetInorderSuccessor(tree.Root, node1).data);
+
+            //Console.WriteLine("Populating child counts - ");
+            //TreeProblems.CalcluateLeafNodeCounts(tree.Root);
+
+   //         bool shouldContinue = true;
+   //         while (shouldContinue)
+   //         {
+			//	Console.WriteLine(" Enter k ");
+   //             string k = Console.ReadLine();
+   //             Console.Write("Inorder {0} node ", k ); 
+   //             Console.WriteLine( " is " + TreeProblems.FindKthInorderNode(tree.Root, Int32.Parse(k)).data);
+   //             Console.WriteLine("Enter false to end or true to continue ");
+   //             shouldContinue = Boolean.Parse(Console.ReadLine());
+			//}
+
+   //         Tree bitTree = new Tree();
+   //         TreeNode root = bitTree.AddNode(1, null, true);
+   //         TreeNode B = bitTree.AddNode(0, root, true);
+   //         TreeNode I = bitTree.AddNode(1, root, false);
+
+   //         TreeNode C = bitTree.AddNode(0, B, true);
+   //         TreeNode F = bitTree.AddNode(1, B, false);
+
+   //         TreeNode D = bitTree.AddNode(0, C, true);
+   //         TreeNode E = bitTree.AddNode(1, C, false);
+
+   //         TreeNode G = bitTree.AddNode(1, F, false);
+
+   //         TreeNode H = bitTree.AddNode(0, G, true);
+
+   //         TreeNode J = bitTree.AddNode(0, I, true);
+   //         TreeNode O = bitTree.AddNode(0, I, false);
+   //         TreeNode P = bitTree.AddNode(0, O, false);
+
+			//TreeNode K = bitTree.AddNode(0, J, false);
+            //TreeNode L = bitTree.AddNode(1, K, true); 
+            //TreeNode N = bitTree.AddNode(0, K, false);
+            //TreeNode M = bitTree.AddNode(1, L, false);
+
+            //bitTree.printLevelWiseTree(bitTree.Root);
+            //Console.ReadKey();
+
+            //Console.WriteLine("Sum of all paths from roof to leaves is " + TreeProblems.SumRootToLeafPath(bitTree.Root));
+
             Console.WriteLine();
-            Console.WriteLine();
-            Console.WriteLine("Height of the tree is " + tree.GetTreeHeight(tree.Root));
-            Console.WriteLine("Is tree balanced :" + TreeProblems.IsTreeBalanced(tree.Root));
-            Console.WriteLine("Is tree binary search tree :" + TreeProblems.IsTreeBinarySearchTree(tree.Root));
+            TreeProblems.PrintInorderTraversal(tree.Root);
             Console.ReadKey();
 
-        }
+		}
     }
 }
