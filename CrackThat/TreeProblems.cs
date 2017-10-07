@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 namespace CrackThat
 {
     public class TreeProblems
@@ -32,9 +33,10 @@ namespace CrackThat
 
         }
 
-        public static void PrintInorderTraversal(TreeNode node)
+        public static List<TreeNode> PrintInorderTraversal(TreeNode node)
         {
             bool isLeftSubTreeDone = false;
+            List<TreeNode> inorder = new List<TreeNode>();
 
             while (node != null)
             {
@@ -46,6 +48,7 @@ namespace CrackThat
 
                 // print node
                 Console.WriteLine(node.data);
+                inorder.Add(node);
 
                 // now travers right tee
                 if (node.right != null)
@@ -74,6 +77,60 @@ namespace CrackThat
                     isLeftSubTreeDone = true;
                 }
             }
+
+            return inorder;
+        }
+
+        public static List<TreeNode> GetPreorderList(TreeNode root)
+        {
+            Stack<TreeNode> nodeStack = new Stack<TreeNode>();
+            TreeNode node = root;
+            nodeStack.Push(node);
+            List<TreeNode> preoder = new List<TreeNode>();
+
+            while (nodeStack.Count > 0)
+            {
+                TreeNode poppedNode = nodeStack.Pop();
+                Console.WriteLine(poppedNode.data);
+                preoder.Add(poppedNode);
+                if (poppedNode.right != null)
+                {
+                    nodeStack.Push(poppedNode.right);
+                }
+                if (poppedNode.left != null)
+                {
+                    nodeStack.Push(poppedNode.left);
+                }
+            }
+
+            return preoder;
+        }
+
+
+        public static TreeNode ConstructTreeFromPreorderAndInorder(List<TreeNode> inorder, List<TreeNode> preorder)
+        {
+            TreeNode root = TreeProblems._ConstructTreeUtil(inorder, preorder, 0, inorder.Count - 1, 0);
+            return root;
+        }
+
+        private static TreeNode _ConstructTreeUtil(
+                                          List<TreeNode> inorder, 
+                                          List<TreeNode> preorder, 
+                                          int startInInorder, 
+                                          int endInInorder,
+                                          int currentIndexInPreOrder
+                                         )
+        {
+            if (startInInorder > endInInorder || currentIndexInPreOrder > preorder.Count - 1)
+            {
+                return null;
+            }
+
+            TreeNode root = preorder[currentIndexInPreOrder];
+            int inIndex = inorder.IndexOf(root);
+            root.left = _ConstructTreeUtil(inorder, preorder, startInInorder, inIndex - 1, currentIndexInPreOrder + 1);
+            root.right = _ConstructTreeUtil(inorder, preorder, inIndex + 1, endInInorder, currentIndexInPreOrder + 1);
+            return root;
         }
 
         public static int SumRootToLeafPath(TreeNode node)

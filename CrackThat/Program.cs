@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace CrackThat
 {
@@ -53,7 +54,7 @@ namespace CrackThat
             tree.AddBSTNode(12);
 
             Console.WriteLine();
-            tree.printLevelWiseTree(tree.Root);
+            //tree.printLevelWiseTree(tree.Root);
    //         Console.WriteLine();
    //         Console.WriteLine();
    //         Console.WriteLine("Height of the tree is " + tree.GetTreeHeight(tree.Root));
@@ -120,9 +121,18 @@ namespace CrackThat
             //Console.WriteLine("Sum of all paths from roof to leaves is " + TreeProblems.SumRootToLeafPath(bitTree.Root));
 
             Console.WriteLine();
-            TreeProblems.PrintInorderTraversal(tree.Root);
+            List<TreeNode> inorder = TreeProblems.PrintInorderTraversal(tree.Root);
             Console.ReadKey();
 
+
+            List<TreeNode> preorder = TreeProblems.GetPreorderList(tree.Root);
+            Console.ReadKey();
+
+            TreeNode root = TreeProblems.ConstructTreeFromPreorderAndInorder(inorder, preorder);
+
+            tree.printLevelWiseTree(root);
+
+            Console.ReadKey();
 		}
     }
 }
