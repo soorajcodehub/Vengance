@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 namespace CrackThat
 {
-    public class ArrayProblems
+    public static class ArrayProblems
     {
-        public ArrayProblems()
-        {
-        }
 
         public static int computeMaxProfit(int[] stockPrices)
         {
@@ -23,7 +21,114 @@ namespace CrackThat
 
         }
 
-        public static int computeMaxProfitForTwoStockSell(int [] stockPrices)
+        public static double GetMedianOfSortedArrays(int[] array1, int[] array2)
+        {
+            int m = array1.Length;
+            int n = array2.Length;
+            int totalItems = (m + n);
+            int median = totalItems / 2;
+            bool isEven = (totalItems % 2 == 0);
+            double resultMedian;
+            int i = m - 1;
+            int j = n - 1;
+            int m2 = -1, m1 = -1;
+            int numberOfElementsCompared = 0;
+
+            while (i >= 0 && j >= 0)
+            {
+                if (array1[i] > array2[j])
+                {
+                    m2 = array1[i];
+                    m1 = array2[j];
+                    numberOfElementsCompared++;
+                    i--;
+                }
+                else
+                {
+                    m2 = array2[j];
+                    m1 = array1[i];
+                    numberOfElementsCompared++;
+                    j--;
+                }
+
+                if (isEven && numberOfElementsCompared == median)
+                {
+                    resultMedian = (m1 + m2) / 2;
+                    return resultMedian;
+                }
+                else if (!isEven && numberOfElementsCompared == median + 1)
+                {
+                    return m2;
+                }
+            }
+
+            while (j >= 0)
+            {
+                m2 = array2[j];
+                if (j - 1 >= 0)
+                {
+                    m1 = array2[j - 1];
+                }
+
+                numberOfElementsCompared++;
+                if (isEven && numberOfElementsCompared == median)
+                {
+                    resultMedian = (m1 + m2) / 2;
+                    return resultMedian;
+                }
+                else if (!isEven && numberOfElementsCompared == median + 1)
+                {
+                    return m2;
+                }
+
+                j--;
+            }
+
+            while (i >= 0)
+            {
+                m2 = array1[i];
+                if (j - 1 >= 0)
+                {
+                    m1 = array2[i - 1];
+                }
+
+                numberOfElementsCompared++;
+                if (isEven && numberOfElementsCompared == median)
+                {
+                    resultMedian = (m1 + m2) / 2;
+                    return resultMedian;
+                }
+                else if (!isEven && numberOfElementsCompared == median + 1)
+                {
+                    return m2;
+                }
+
+                i--;
+            }
+
+            return 0;
+        }
+
+        public static Tuple<int, int> FindTwoSum(int[] array, int target)
+        {
+            Dictionary<int, int> indexValue = new Dictionary<int, int>();
+            for (int i = 0; i < array.Length; i++)
+            {
+                int numToFind = target - array[i];
+                if (indexValue.ContainsKey(numToFind))
+                {
+                    return new Tuple<int, int>(i, indexValue[numToFind]);
+                }
+                else
+                {
+                    indexValue.Add(array[i], i);
+                }
+            }
+
+            return null;
+        }
+
+        public static int computeMaxProfitForTwoStockSell(int[] stockPrices)
         {
             int maxProfit = 0;
             int minPrice = Int32.MaxValue;
@@ -31,12 +136,12 @@ namespace CrackThat
             ArrayList maxProfits = new ArrayList();
 
 
-			for (int i = 0; i < stockPrices.Length; i++)
-			{
-				maxProfit = Math.Max(stockPrices[i] - minPrice, maxProfit);
-				minPrice = Math.Min(stockPrices[i], minPrice);
+            for (int i = 0; i < stockPrices.Length; i++)
+            {
+                maxProfit = Math.Max(stockPrices[i] - minPrice, maxProfit);
+                minPrice = Math.Min(stockPrices[i], minPrice);
                 maxProfits.Add(maxProfit);
-			}
+            }
 
 
             int maxPrice = Int32.MinValue;
@@ -48,6 +153,214 @@ namespace CrackThat
             }
 
             return maxProfit;
-		}
+        }
+
+        public static int GetMaxSumSubArray(int[] array)
+        {
+            int currentMax = array[0];
+            int maxSumSoFar = array[0];
+
+            for (int i = 1; i < array.Length; i++)
+            {
+                currentMax = Math.Max(currentMax + array[i], array[i]);
+                maxSumSoFar = Math.Max(currentMax, maxSumSoFar);
+            }
+
+            return maxSumSoFar;
+        }
+
+        #region Searching
+
+        private enum Ordering { larger, smaller, equal };
+
+        private static Ordering CompareNumbers(double num1, double num2)
+        {
+            double epsillon = 0.00001;
+            double diff = (num1 - num2) / num2;
+            return diff < -epsillon ? Ordering.smaller :
+                                    (diff > epsillon) ?
+                                              Ordering.larger :
+                                              Ordering.equal;
+        }
+
+        public static int GetFirstIndexInSortedArray(int[] array, int element)
+        {
+            return _GetFirstIndexInsortedArray(array, element, 0, array.Length - 1);
+        }
+
+        private static int _GetFirstIndexInsortedArray(int[] array, int element, int low, int high)
+        {
+            if (low > high)
+            {
+                return -1;
+            }
+
+            if (low == high)
+            {
+                return low;
+            }
+
+            int mid = (high - low) / 2 + low;
+
+            if (array[mid] == element)
+            {
+                high = mid;
+            }
+            else if (array[mid] < element)
+            {
+                low = mid + 1;
+            }
+            else if (array[mid] > element)
+            {
+                high = mid - 1;
+            }
+
+            return _GetFirstIndexInsortedArray(array, element, low, high);
+        }
+
+        public static int GetEntryMatchingIndex(int[] array, int eleemnt)
+        {
+            return _GetEntryMatchingIndex(array, eleemnt, 0, array.Length - 1);
+        }
+
+        private static int _GetEntryMatchingIndex(int[] array, int element, int low, int high)
+        {
+            if (high < low)
+            {
+                return -1;
+            }
+
+            int mid = (high - low) / 2 + low;
+
+            if (element == mid)
+            {
+                return mid;
+            }
+            else if (element > mid)
+            {
+                low = mid + 1;
+            }
+            else if (element < mid)
+            {
+                high = mid - 1;
+            }
+
+            return _GetEntryMatchingIndex(array, element, low, high);
+        }
+
+        public static double CalculateSquareRoot(double number)
+        {
+            double low;
+            double mid;
+            double high;
+            if (number < 1)
+            {
+                low = number;
+                high = 1;
+            }
+            else
+            {
+                low = 1;
+                high = number;
+            }
+
+            while (low < high)
+            {
+                mid = 0.5 * (high - low) + low;
+                double midSquared = mid * mid;
+                Ordering ordering = CompareNumbers(number, midSquared);
+                if (ordering == Ordering.equal)
+                {
+                    return mid;
+                }
+                else if (ordering == Ordering.larger)
+                {
+                    low = mid;
+                }
+                else
+                {
+                    high = mid;
+                }
+            }
+
+            return low;
+        }
+
+        #endregion
+
+        #region dynamic
+        public static int FindRainWaterTrappedInArray(int[] array)
+        {
+            int water = 0;
+            int length = array.Length;
+            int[] leftWalls = new int[length];
+            int[] rightWalls = new int[length];
+
+            leftWalls[0] = array[0];
+            rightWalls[array.Length - 1] = array[length - 1];
+
+            for (int i = 1; i < array.Length; i++)
+            {
+                leftWalls[i] = Math.Max(leftWalls[i - 1], array[i]);
+            }
+
+            for (int j = array.Length - 2; j >= 0; j--)
+            {
+                rightWalls[j] = Math.Max(rightWalls[j + 1], array[j]);
+            }
+
+            for (int k = 0; k < array.Length; k++)
+            {
+                water = water + Math.Min(leftWalls[k], rightWalls[k]) - array[k];
+
+            }
+
+            return water;
+        }
+
+        public static int FindRainWater(int[] array)
+        {
+            int water = 0;
+            int leftMax = 0;
+            int rightMax = 0;
+
+            int leftWallPointer = 0;
+            int rightWallPointer = array.Length - 1;
+
+            while (leftWallPointer < rightWallPointer)
+            {
+
+                if (array[leftWallPointer] < array[rightWallPointer])
+                {
+                    if (leftMax < array[leftWallPointer])
+                    {
+                        leftMax = array[leftWallPointer];
+                    }
+                    else
+                    {
+                        water = water + leftMax - array[leftWallPointer];
+                    }
+
+                    leftWallPointer++;
+                }
+                else
+                {
+                    if (rightMax < array[rightWallPointer])
+                    {
+                        rightMax = array[rightWallPointer];
+                    }
+                    else
+                    {
+                        water = water + rightMax - array[rightWallPointer];
+                    }
+
+                    rightWallPointer--;
+                }
+            }
+
+            return water;
+        }
+
+        #endregion 
     }
 }

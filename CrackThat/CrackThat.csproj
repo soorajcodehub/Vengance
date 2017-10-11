@@ -43,6 +43,8 @@
     <Compile Include="Tree.cs" />
     <Compile Include="TreeNode.cs" />
     <Compile Include="SortingAndSearchingProblems.cs" />
+    <Compile Include="StringProblems.cs" />
+    <Compile Include="LinkedListProblems.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
