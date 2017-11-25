@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 namespace CrackThat
 {
     public static class ArrayProblems
@@ -289,6 +290,52 @@ namespace CrackThat
         #endregion
 
         #region dynamic
+
+        public static int FindMinimumNumberOfCoins(int[] coinValues, int amount)
+        {
+            /* recursive equation ->
+             * MinCoinsNeeded(amount) = Min for (i in {0, n}) (MinCoinsNeeded(amount - coins[i]))
+             */
+
+            int[] minCoinsNeededForAmount = new int[amount + 1];
+            int[] currentCoins = new int[coinValues.Length];
+
+            minCoinsNeededForAmount[0] = 0;
+
+            for (int amt = 1; amt <= amount; amt++)
+            {
+                for (int j = 0; j < currentCoins.Length; j++)
+                {
+                    currentCoins[j] = -1;
+                }
+
+                for (int i = 0; i < coinValues.Length; i++)
+                {
+                    if (coinValues[i] <= amt)
+                    {
+                        currentCoins[i] = minCoinsNeededForAmount[amt - coinValues[i]] + 1;
+                    }
+                }
+
+                minCoinsNeededForAmount[amt] = -1;
+                for (int j = 0; j < currentCoins.Length; j++)
+                {
+                    if (currentCoins[j] > 0 &&
+                        (
+                            minCoinsNeededForAmount[amt] == -1 ||
+                            minCoinsNeededForAmount[amt] > currentCoins[j]
+                        )
+                       )
+                    {
+                        minCoinsNeededForAmount[amt] = currentCoins[j];
+                    }
+                }
+            }
+
+            return minCoinsNeededForAmount[amount];
+
+        }
+
         public static int FindRainWaterTrappedInArray(int[] array)
         {
             int water = 0;
@@ -361,6 +408,181 @@ namespace CrackThat
             return water;
         }
 
-        #endregion 
+        #endregion
+
+        #region trickyNonsense
+
+        public static void PrintList<T>(List<T> list)
+        {
+            Console.WriteLine("***** Printing List *********");
+
+            foreach(T element in list)
+            {
+                Console.Write(" " + element.ToString());
+            }
+            Console.WriteLine();
+            Console.WriteLine("***** Printing List *********");
+        }
+
+        public static void PrintTupleList(List<Tuple<int, int>> pairs)
+        {
+            Console.WriteLine("***** Printing List *********");
+
+            foreach(Tuple<int, int> pair in pairs)
+            {
+                Console.WriteLine(pair.Item1 + "==>" + pair.Item2);
+            }
+
+            Console.WriteLine("***** Printing List *********");
+        }
+
+        public static List<int> GetMaxSubArrayOfFibonacciNumbers(int [] a)
+        {
+            int max = Int32.MinValue;
+
+            for (int j = 0; j < a.Length; j++)
+            {
+                if (a[j] > max)
+                {
+                    max = a[j];
+                }
+            }
+
+            HashSet<int> numberHash = new HashSet<int>();
+
+            int i = 0;
+            numberHash.Add(i);
+            numberHash.Add(i + 1);
+            int current = i + 1;
+            int previous = i;
+            int temp = previous;
+            while ( i < max)
+            {
+                temp = current;
+                current = current + previous;
+                previous = temp;
+                numberHash.Add(current);
+                i = current;
+                
+            }
+
+            List<int> result = new List<int>();
+
+            for (int k = 0; k < a.Length; k++)
+            {
+                if (numberHash.Contains(a[k]))
+                {
+                    result.Add(a[k]);   
+                }
+            }
+
+            return result;
+        }
+
+        public static void PrintMatrix(int [,] a)
+        {
+            Console.WriteLine("*****************");
+            for (int i = 0; i < a.GetLength(0); i++)
+            {
+                for (int j = 0; j < a.GetLength(1); j++ )
+                {
+                    Console.Write(" " + a[i,j]);
+                }
+                Console.WriteLine();
+            }
+            Console.WriteLine("*****************");
+        }
+
+        public static List<Tuple<int, int>> GetPairsWithKDifference(int [] a, int k)
+        {
+            HashSet<int> lookup = new HashSet<int>();
+            List<Tuple<int, int>> pairs = new List<Tuple<int, int>>();
+
+            for (int i = 0; i < a.Length; i++)
+            {
+                lookup.Add(a[i]);
+            }
+
+            for (int j = 0; j < a.Length; j ++)
+            {
+                if (lookup.Contains(a[j] + k))
+                {
+                    pairs.Add(new Tuple<int, int>(a[j], a[j] + k));
+                }
+            }
+
+            return pairs;
+        }
+
+        public static int[,] rotateMatrix(int[,] a, bool counterClokwise)
+        {
+            int rows = a.GetLength(0);
+            int cols = a.GetLength(1);
+
+            if (!counterClokwise)
+            {
+                reverseRows(ref a);
+            }
+            else 
+            {
+                reverseColums(ref a);
+            }
+
+            PrintMatrix(a);
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = i + 1; j < cols; j++)
+                {
+                    int temp = a[i, j];
+                    a[i, j] = a[j, i];
+                    a[j, i] = temp;
+                }
+            }
+
+            return a;
+        }
+
+        private static void reverseRows(ref int[,] a)
+        {
+            int s = 0;
+            int e = a.GetLength(0) - 1;
+            int cols = a.GetLength(1);
+
+            while (s < e)
+            {
+                for (int c = 0; c < cols; c++)
+                {
+                    int temp = a[s, c];
+                    a[s, c] = a[e, c];
+                    a[e, c] = temp;
+                }
+
+                s++;
+                e--;
+            }
+        }
+
+
+        private static void reverseColums(ref int[,] a)
+        {
+            int s = 0;
+            int e = a.GetLength(1) - 1;
+            int rows = a.GetLength(0);
+
+            while (s < e)
+            {
+                for (int r = 0; r < rows; r++)
+                {
+                    int temp = a[r, s];
+                    a[r, s] = a[r, e];
+                    a[r, e] = temp;
+                }
+
+                s++;
+                e--;
+            }
+        }
+
+#endregion
     }
 }

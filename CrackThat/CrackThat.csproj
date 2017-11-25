@@ -45,6 +45,10 @@
     <Compile Include="SortingAndSearchingProblems.cs" />
     <Compile Include="StringProblems.cs" />
     <Compile Include="LinkedListProblems.cs" />
+    <Compile Include="NumberConverter.cs" />
+    <Compile Include="NumberOperator.cs" />
+    <Compile Include="CityArmySolution.cs" />
+    <Compile Include="FlattenDictionary.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

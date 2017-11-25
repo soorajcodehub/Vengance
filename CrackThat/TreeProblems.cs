@@ -153,7 +153,7 @@ namespace CrackThat
             }
 
             return _sumRootToLeafPath(node.left, partialSum) + _sumRootToLeafPath(node.right, partialSum);
-        }
+           }
 
         public static bool HasRequiredSumPath(TreeNode node, int requiredSum)
         {

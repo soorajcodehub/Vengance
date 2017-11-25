@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+
 namespace CrackThat
 {
     public class SortingAndSearchingProblems
@@ -51,6 +53,47 @@ namespace CrackThat
             }
 
             return -1;
+        }
+
+        public static List<int> FindIntersectionOfTwoArrays(int [] array1, int [] array2)
+        {
+
+            if (array1 == null || array2 == null) 
+            {
+                return null;   
+            }
+            else if (array1.Length == 0 || array2.Length == 0) 
+            {
+                return new List<int>();
+            }
+
+            List<int> result = new List<int>();
+
+            Array.Sort(array1);
+            Array.Sort(array2);
+
+            int i = 0;
+            int j = 0;
+
+            while (i < array1.Length && j < array2.Length)
+            {
+                if (array1[i] == array2[j])
+                {
+                    result.Add(array1[i]);
+                    i++;
+                    j++;
+                }
+                else if(array1[i] < array2[j])
+                {
+                    i++;
+                }
+                else
+                {
+                    j++;
+                }  
+            }
+
+            return result;
         }
     }
 }

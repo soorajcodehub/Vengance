@@ -227,6 +227,34 @@ namespace CrackThat
             return Math.Max(leftTreeHeight, rightTreeHeight);
         }
 
+        internal class MaxLevel 
+        {
+            internal int maxLevel; 
+        }
+
+        public static void printRightSideTree(TreeNode root)
+        {
+            MaxLevel maxLevel = new MaxLevel();
+            printRightSideTreeUtil(root, 1, maxLevel);
+        }
+
+        private static void printRightSideTreeUtil(TreeNode root, int level, MaxLevel maxLevel)
+        {
+            if (root == null)
+            {
+                return;
+            }
+
+            if (level > maxLevel.maxLevel) 
+            {
+                Console.WriteLine(root.data);
+                maxLevel.maxLevel = level;
+            }
+
+            printRightSideTreeUtil(root.right, level + 1, maxLevel);
+            printRightSideTreeUtil(root.left, level + 1, maxLevel);
+        }
+
         internal class TreeNodePrintDetail 
         {
             internal TreeNodePrintDetail(TreeNode node, int level, int posLeft)

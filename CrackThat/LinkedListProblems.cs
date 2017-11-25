@@ -132,6 +132,106 @@ namespace CrackThat
 
         }
 
+        public static LinkedListNode Reverse(ref LinkedListNode head)
+        {
+            if (head == null)
+            {
+                return head;
+            }
+
+            LinkedListNode current = head;
+            LinkedListNode previous = null;
+            LinkedListNode temp = null;
+
+            while (current != null)
+            {
+                temp = current.next;
+                current.next = previous;
+                previous = current;
+                current = temp;
+            }
+
+            head = previous;
+            return head;
+        }
+
+        public static LinkedListNode ReverseK(ref LinkedListNode head, int k)
+        {
+            if (head == null)
+            {
+                return head;
+            }
+
+            LinkedListNode current = head;
+            LinkedListNode previous = null;
+            LinkedListNode temp = null;
+            int i = 0;
+            bool isFirstLinkedListSubsetBeingPreocessed = false;
+            LinkedListNode endNodeOfCurrentLinkedListSubset = null;
+            LinkedListNode endNodeOfPreviousLinkedListSubset = null;
+            while (current != null)
+            {
+                if (_hasEnougNodesToReverse(current, k))
+                {
+                    endNodeOfPreviousLinkedListSubset = endNodeOfCurrentLinkedListSubset;
+                    endNodeOfCurrentLinkedListSubset = current;
+
+                    if (current == head)
+                    {
+                        previous = null;
+                        isFirstLinkedListSubsetBeingPreocessed = true;
+                    }
+                    else 
+                    {
+                        isFirstLinkedListSubsetBeingPreocessed = false;
+                    }
+
+                    while (i < k)
+                    {
+                        temp = current.next;
+                        current.next = previous;
+                        previous = current;
+                        current = temp;
+                        i++;
+                    }
+
+                    // point the end of processed linkesList to the start of the next linkedlist subset 
+                    endNodeOfCurrentLinkedListSubset.next = current;
+
+                    i = 0;
+
+                    if(isFirstLinkedListSubsetBeingPreocessed)
+                    {
+                        head = previous;
+                    }
+                    else // we have precessed at least one subset, which means we have an end node for a processed subset, so set its next
+                    {
+                        endNodeOfPreviousLinkedListSubset.next = previous;
+                    }
+
+                    previous = endNodeOfCurrentLinkedListSubset;
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            return head;
+        }
+
+        private static bool _hasEnougNodesToReverse(LinkedListNode current, int k)
+        {
+            int i = 0;
+            while (i < k && current != null)
+            {
+                current = current.next;
+                i++;
+            }
+
+            return (i == k);
+        }
+
 		private static void _moveSmallerNodeBeforeBiggerNode(ref LinkedListNode smallerNode, ref LinkedListNode biggerNode)
 		{
             LinkedListNode temp = smallerNode.next;

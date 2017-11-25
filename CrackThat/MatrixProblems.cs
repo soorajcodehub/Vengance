@@ -169,5 +169,140 @@ namespace CrackThat
             }
         }
 
+        public static double FindAreaMaxIsland(int [,] matrix)
+        {
+            int[] leftBoundary;
+            int [] rightBoundary;
+            int[] height;
+
+            int rows = matrix.GetLength(0);
+            int cols = matrix.GetLength(1);
+            int currLeft = 0;
+            int currRight = cols;
+
+            leftBoundary = new int[cols];
+            rightBoundary = new int[cols];
+            height = new int[cols];
+            double maxArea = 0;
+
+            populateArray(leftBoundary, 0);
+            populateArray(rightBoundary, cols);
+            populateArray(height, 0);
+
+            for (int row = 0; row < rows; row ++)
+            {
+                currLeft = 0;
+                currRight = cols;
+                maxArea = 0;
+
+                for (int col = 0; col < cols; col++)
+                {
+                    if (matrix[row, col] == 1)
+                    {
+                        leftBoundary[col] = Math.Max(leftBoundary[col], currLeft);
+                        height[col] = height[col] + 1;
+                    }
+                    else
+                    {
+                        currLeft = col + 1;
+                    }
+                }
+
+                for (int col = cols - 1; col >= 0; col --)
+                {
+					if (matrix[row, col] == 1)
+					{
+                        rightBoundary[col] = Math.Min(rightBoundary[col], currRight);
+					}
+					else
+					{
+                        currRight = col;
+					}
+                }
+
+                for (int col = 0; col < cols; col ++)
+                {
+                    if (matrix[row, col] == 1)
+                    {
+                        maxArea = Math.Max(
+                            maxArea, 
+                            (rightBoundary[col] - leftBoundary[col]) * height[col]
+                        );
+                    }
+                }
+            }
+
+            return maxArea;
+        }
+
+        public static int FindNumberOfIslands(int [,] matrix)
+        {
+            int count = 0;
+            int rows = matrix.GetLength(0);
+            int cols = matrix.GetLength(1);
+
+            bool[,] visited = new bool[rows, cols];
+
+			int [] rowNbr = { -1, -1, -1, 0, 0, 1, 1, 1 };
+			int [] colNbr = { -1, 0, 1, -1, 1, -1, 0, 1 };
+
+            for (int i = 0; i < matrix.GetLength(0); i++)
+            {
+                for (int j = 0; j < matrix.GetLength(1); j++)
+                {
+                    if (matrix[i, j] == 1 && 
+                        !visited[i,j]
+                       )
+                    {
+                        DFSMatrix(matrix, visited, i, j, rowNbr, colNbr);
+						count++;
+                    }
+                }
+            }
+
+            return count;
+        }
+
+        private static void DFSMatrix(int [,] matrix, 
+                                     bool [,] visited, 
+                                     int row, 
+                                     int col, 
+                                     int [] rowNbrs, 
+                                     int [] colNbrs)
+        {
+            if(isSafeToVisit(row, col, matrix, visited))
+            {
+                visited[row, col] = true;
+                for (int i = 0; i < rowNbrs.Length; i++)
+                {
+                    DFSMatrix(matrix, visited, row + rowNbrs[i], col + colNbrs[i], rowNbrs, colNbrs);
+                }
+            }
+        }
+
+
+        private static bool isSafeToVisit(int row, int col, int [,] matrix, bool [,] visited)
+        {
+            if ( row >= 0 && 
+                row < matrix.GetLength(0) && 
+                col >= 0 && 
+                col < matrix.GetLength(1) && 
+                !visited[row, col] &&
+                matrix[row, col] == 1
+              )
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        private static void populateArray(int[] array, int fillValue)
+        {
+            for (int i = 0; i < array.Length; i++)
+            {
+                array[i] = fillValue;
+            }
+        }
 	}
 }
