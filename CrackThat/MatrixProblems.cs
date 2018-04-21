@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 namespace CrackThat
 {
     public class MatrixProblems
@@ -8,7 +9,7 @@ namespace CrackThat
 
         }
 
-        public void generateSpiralMatrix(int n)
+        public static void generateSpiralMatrix(int n)
         {
             int midRow, midCol;
             midRow = midCol = (n % 2 == 0) ? n / 2 - 1 : n / 2;
@@ -23,117 +24,117 @@ namespace CrackThat
             while (i < totalElements)
             {
                 // Go right -increment col
-                while (i < totalElements && !this.CanGoRight(midRow, midCol, a, n))
+                while (i < totalElements && !CanGoRight(midRow, midCol, a, n))
                 {
-                    this.goAccordingToLastDirection(direction, ref midRow, ref midCol, ref a);
+                   goAccordingToLastDirection(direction, ref midRow, ref midCol, ref a);
                     i++;
                 }
 
-                if (this.CanGoRight(midRow, midCol, a, n))
+                if (CanGoRight(midRow, midCol, a, n))
                 {
-					this.goRight(ref a, ref midRow, ref midCol);
+					goRight(ref a, ref midRow, ref midCol);
 					direction = "right";
 					i++;
                 }
 
                 // go down --increment row
-                while (i < totalElements && !this.CanGoBottom(midRow, midCol, a,  n))
+                while (i < totalElements && !CanGoBottom(midRow, midCol, a,  n))
                 {
-                    this.goAccordingToLastDirection(direction, ref midRow, ref midCol, ref a);
+                    goAccordingToLastDirection(direction, ref midRow, ref midCol, ref a);
                     i++;
                 }
 
-                if (this.CanGoBottom(midRow, midCol, a, n))
+                if (CanGoBottom(midRow, midCol, a, n))
                 {
-					this.goBottom(ref a, ref midRow, ref midCol);
+					goBottom(ref a, ref midRow, ref midCol);
 					direction = "bottom";
 					i++;   
                 }
 
                 // go left -- decrement column
-                while (i < totalElements && !this.CanGoLeft(midRow, midCol, a))
+                while (i < totalElements && !CanGoLeft(midRow, midCol, a))
                 {
-					this.goAccordingToLastDirection(direction, ref midRow, ref midCol, ref a);
+					goAccordingToLastDirection(direction, ref midRow, ref midCol, ref a);
                     i++;
                 }
 
-                if (this.CanGoLeft(midRow, midCol, a))
+                if (CanGoLeft(midRow, midCol, a))
                 {
-                    this.goLeft(ref a, ref midRow, ref midCol);
+                    goLeft(ref a, ref midRow, ref midCol);
                     direction = "left";
                     i++;
                 }
 
                 // go up decrement row
-                while (i < totalElements && !this.CanGoTOp(midRow, midCol, a))
+                while (i < totalElements && !CanGoTOp(midRow, midCol, a))
                 {
-                    this.goAccordingToLastDirection(direction, ref midRow, ref midCol, ref a);
+                    goAccordingToLastDirection(direction, ref midRow, ref midCol, ref a);
                     i++;
                 }
 
-                if (this.CanGoTOp(midRow, midCol, a))
+                if (CanGoTOp(midRow, midCol, a))
                 {
-                    this.goTop(ref a, ref midRow, ref midCol);
+                    goTop(ref a, ref midRow, ref midCol);
                     direction = "top";
                     i++;
                 }
             }
 
-            this.printMatrix(a);
+            printMatrix(a);
         }
 
-        private void printMatrix(int[,] a)
+        private static void printMatrix(int[,] a)
         {
             for (int i = 0; i < a.GetLength(0); i++)
             {
                 for (int j = 0; j < a.GetLength(1); j++)
                 {
-                    Console.Write(a[i,j]);
+                    Console.Write(a[i, j] + " ");
                 }
                 Console.WriteLine();
             }
         }
   
-        private bool CanGoRight(int row, int col, int [,] a, int n)
+        private static bool CanGoRight(int row, int col, int [,] a, int n)
         {
             return (col + 1  < n && a[row, col + 1] == 0);   
         }
 
-		private bool CanGoLeft(int row, int col, int[,] a)
+		private static  bool CanGoLeft(int row, int col, int[,] a)
 		{
 			return (col - 1 >= 0 && a[row, col - 1] == 0);
 		}
 
-		private bool CanGoTOp(int row, int col, int[,] a)
+		private static  bool CanGoTOp(int row, int col, int[,] a)
 		{
 			return (row - 1 >= 0 && a[row - 1, col] == 0);
 		}
 
-		private bool CanGoBottom(int row, int col, int[,] a, int n)
+		private static bool CanGoBottom(int row, int col, int[,] a, int n)
 		{
 			return (row + 1 < n && a[row + 1, col] == 0);
 		}
                     
-        private void goAccordingToLastDirection(string lastDirection, ref int row, ref int col, ref int [,] a)
+        private static void goAccordingToLastDirection(string lastDirection, ref int row, ref int col, ref int [,] a)
         {
             switch(lastDirection)
             {
                 case "right" : 
-                    this.goRight(ref a, ref row, ref col);
+                    goRight(ref a, ref row, ref col);
                     break;
                 case "left" :
-                    this.goLeft(ref a, ref row, ref col);
+                    goLeft(ref a, ref row, ref col);
                     break;
                 case "top" :
-                    this.goTop(ref a, ref row, ref col);
+                    goTop(ref a, ref row, ref col);
                     break;
                 case "bottom" :
-                    this.goBottom(ref a, ref row, ref col);
+                    goBottom(ref a, ref row, ref col);
                     break;
             }
         }
 
-        private void goTop(ref int[,] a, ref int row, ref int col)
+        private static void goTop(ref int[,] a, ref int row, ref int col)
         {
             if (row - 1 >= 0)
             {
@@ -142,7 +143,7 @@ namespace CrackThat
             }
         }
 
-        private void goRight(ref int[,] a, ref int row, ref int col)
+        private static void goRight(ref int[,] a, ref int row, ref int col)
         {
             if (col + 1 < a.GetLength(1))
             {
@@ -151,7 +152,7 @@ namespace CrackThat
             }
         }
 
-        private void goBottom(ref int[,] a, ref int row, ref int col)
+        private static void goBottom(ref int[,] a, ref int row, ref int col)
         {
             if (row + 1 < a.GetLength(0))
             {
@@ -160,7 +161,7 @@ namespace CrackThat
             }
         }
 
-        private void goLeft(ref int[,] a, ref int row, ref int col)
+        private static void goLeft(ref int[,] a, ref int row, ref int col)
         {
             if (col -  1 >= 0)
             {
@@ -263,6 +264,135 @@ namespace CrackThat
             return count;
         }
 
+        public static List<string> WordBoggle(char[,] matrix, List<string> strings)
+        {
+            int rows = matrix.GetLength(0);
+            int cols = matrix.GetLength(1);
+
+            bool[,] visited = new bool[rows, cols];
+            List<string> resultStrings = null;
+
+            foreach (String str in strings)
+            {
+                Tuple<int, int> rowCol = GetCoordinates(str[0], matrix);
+
+                if (rowCol == null)
+                {
+                    continue;
+                }
+                    
+
+                int row = rowCol.Item1;
+                int col = rowCol.Item2;
+
+                visited[row, col] = true;
+
+                int j = 1;
+                for (j = 1; j < str.Length; j++)
+                {
+                    Tuple<int, int> nextRowCol = getNextEligibleCoordinate(str[j], matrix, row, col, ref visited);
+
+                    if (nextRowCol != null)
+                    {
+                        row = nextRowCol.Item1;
+                        col = nextRowCol.Item2;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+
+                if ( j >= str.Length)
+                {
+                    if (resultStrings == null)
+                    {
+                        resultStrings  = new List<string>();
+                    }
+                    resultStrings.Add(str);
+                }
+
+                reInitializeVisited(ref visited, rows, cols);
+            }
+
+            return resultStrings;
+
+        }
+
+        private static void reInitializeVisited (ref bool [,] visited, int rows, int cols)
+        {
+            for (int i = 0; i < rows; i ++)
+            {
+                for (int j = 0; j < cols; j ++)
+                {
+                    visited[i,j]  = false;
+                }
+            }
+        }
+        private static Tuple<int, int> getNextEligibleCoordinate(char a, char [,] matrix, int row, int col, ref bool[,] visited)
+        {
+            if (isSafeToVisit(row -1, col, matrix, visited) && matrix[row -1, col] == a)
+            {
+                visited[row - 1, col] = true;
+                return new Tuple<int, int>(row - 1, col);
+            }
+            if (isSafeToVisit(row, col -1, matrix, visited) && matrix[row, col -1] == a)
+            {
+                visited[row, col -1] = true;
+                return new Tuple<int, int>(row, col -1);
+            }
+            if (isSafeToVisit(row  + 1, col, matrix, visited) && matrix[row + 1, col] == a)
+            {
+                visited[row + 1, col] = true;
+                return new Tuple<int, int>(row + 1, col);
+            }
+            if (isSafeToVisit(row, col + 1, matrix, visited) && matrix[row, col + 1] == a)
+            {
+                visited[row, col + 1] = true;
+                return new Tuple<int, int>(row, col + 1);
+            }
+            if (isSafeToVisit(row - 1, col + 1, matrix, visited) && matrix[row - 1, col + 1] == a)
+            {
+                visited[row - 1, col + 1] = true;
+                return new Tuple<int, int>(row - 1, col + 1);
+            }
+            if (isSafeToVisit(row + 1, col  - 1, matrix, visited) && matrix[row + 1, col - 1] == a)
+            {
+                visited[row + 1, col - 1] = true;
+                return new Tuple<int, int>(row + 1, col - 1);
+            }
+            if (isSafeToVisit(row - 1, col - 1, matrix, visited) && matrix[row - 1, col - 1] == a)
+            {
+                visited[row - 1, col - 1] = true;
+                return new Tuple<int, int>(row - 1, col - 1);
+            }
+            if (isSafeToVisit(row + 1, col + 1, matrix, visited) && matrix[row + 1, col + 1] == a)
+            {
+                visited[row + 1, col + 1] = true;
+                return new Tuple<int, int>(row + 1, col + 1);
+            }
+
+            return null;
+        }
+
+        private static Tuple<int, int> GetCoordinates(char a, char[,] matrix)
+        {
+            Tuple<int, int> tuple = null;
+            for (int i = 0; i < matrix.GetLength(0); i ++)
+            {
+                for (int j = 0; j < matrix.GetLength(1); j++)
+                {
+                    if (matrix[i, j] == a)
+                    {
+                        tuple = new Tuple<int, int>(i, j);
+                        return tuple;
+                    }
+                }
+            }
+
+            return tuple;
+        }
+
         private static void DFSMatrix(int [,] matrix, 
                                      bool [,] visited, 
                                      int row, 
@@ -289,6 +419,21 @@ namespace CrackThat
                 col < matrix.GetLength(1) && 
                 !visited[row, col] &&
                 matrix[row, col] == 1
+              )
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        private static bool isSafeToVisit(int row, int col, char[,] matrix, bool[,] visited)
+        {
+            if (row >= 0 &&
+                row < matrix.GetLength(0) &&
+                col >= 0 &&
+                col < matrix.GetLength(1) &&
+                !visited[row, col]
               )
             {
                 return true;

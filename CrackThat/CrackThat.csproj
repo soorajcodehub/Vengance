@@ -49,6 +49,7 @@
     <Compile Include="NumberOperator.cs" />
     <Compile Include="CityArmySolution.cs" />
     <Compile Include="FlattenDictionary.cs" />
+    <Compile Include="Heap.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -407,13 +407,19 @@ namespace CrackThat
 
             return water;
         }
-
+                
         #endregion
 
         #region trickyNonsense
 
         public static void PrintList<T>(List<T> list)
         {
+            if (list == null)
+            {
+                Console.WriteLine("list is null");
+                return;
+            }
+
             Console.WriteLine("***** Printing List *********");
 
             foreach(T element in list)
@@ -581,6 +587,30 @@ namespace CrackThat
                 s++;
                 e--;
             }
+        }
+
+        public static bool DoesThreePairExist(int [] array, int sum)
+        {
+            HashSet<int> lookup = new HashSet<int>();
+            for (int i = 0; i < array.Length; i ++)
+            {
+                lookup.Add(array[i]);
+            }
+
+            for (int k = 0; k < array.Length; k++)
+            {
+                int twoSum = sum - array[k];
+
+                for (int m = k + 1; m < array.Length; m++)
+                {
+                    if (lookup.Contains(twoSum - array[m]))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
         }
 
 #endregion

@@ -254,9 +254,32 @@ namespace CrackThat
             //int [,] result = ArrayProblems.rotateMatrix(matrix, true);
             //ArrayProblems.PrintMatrix(result);
 
-            ArrayProblems.PrintList(ArrayProblems.GetMaxSubArrayOfFibonacciNumbers(new int[]{ 1, 4, 3, 9, 10, 13, 7}));
-            ArrayProblems.PrintTupleList(ArrayProblems.GetPairsWithKDifference(new int[]{3, 5, 6, 4, 2, 1}, 2));
+            //ArrayProblems.PrintList(ArrayProblems.GetMaxSubArrayOfFibonacciNumbers(new int[]{ 1, 4, 3, 9, 10, 13, 7}));
+            //ArrayProblems.PrintTupleList(ArrayProblems.GetPairsWithKDifference(new int[]{3, 5, 6, 4, 2, 1}, 2));
 
+            //Console.WriteLine(ArrayProblems.DoesThreePairExist(new int [] { 1, 4, 45, 6, 10, 8}, 5));
+
+            //Console.WriteLine("a a b b");
+            //StringProblems.PrintFirstNonRepeatedCharacterInStream("aabb");
+
+            //char [,] matrix = new char[,] {
+            //    { 'G','I','Z'}, { 'U','E','K'}, { 'Q','S','E'}
+            //};
+
+            //List<string> result = MatrixProblems.WordBoggle(matrix, new List<string>(){ "GEEKS", "FOR", "QUIZ", "GO" });
+            //ArrayProblems.PrintList(result);
+
+            //MatrixProblems.generateSpiralMatrix(5);
+
+            //Console.WriteLine(b);
+
+            //StringProblems.PrintFirstNonRepeatedCharacterInStream(b);
+
+            Heap maxHeap = new Heap(4, true);
+            maxHeap.Insert(1);
+            maxHeap.Insert(2);
+            maxHeap.Insert(3);
+            maxHeap.printHeap();
             Console.ReadKey();
 		}
 

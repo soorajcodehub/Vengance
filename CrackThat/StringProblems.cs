@@ -8,12 +8,12 @@ namespace CrackThat
     {
         public static List<string> FindAllValidPalindromes(String str)
         {
-            int i = 0; 
+            int i = 0;
             int j = 1;
             int length = str.Length;
             List<string> palindromes = new List<string>();
 
-            while (i >= 0 && j >=0 && i < length && j < length)
+            while (i >= 0 && j >= 0 && i < length && j < length)
             {
                 if (str[i] == str[j] && i >= 0 && j < length)
                 {
@@ -34,7 +34,7 @@ namespace CrackThat
                     {
                         j = j + 1;
                     }
-                    else 
+                    else
                     {
                         i = j;
                         j = j + 1;
@@ -42,7 +42,7 @@ namespace CrackThat
                 }
             }
 
-            return palindromes;   
+            return palindromes;
         }
 
         public static string GetZigzagString(string str, int numberOfRows)
@@ -55,21 +55,21 @@ namespace CrackThat
                 {
                     if (bottomAcrossStrings[stringBuilderIndex] == null)
                     {
-                      bottomAcrossStrings[stringBuilderIndex] = new StringBuilder();  
+                        bottomAcrossStrings[stringBuilderIndex] = new StringBuilder();
                     }
 
                     bottomAcrossStrings[stringBuilderIndex].Append(str[stringIndex]);
                     stringIndex++;
                 }
 
-                for (int stringBuilderIndex = numberOfRows - 2; stringBuilderIndex > 0 && stringIndex < str.Length; stringBuilderIndex --)
+                for (int stringBuilderIndex = numberOfRows - 2; stringBuilderIndex > 0 && stringIndex < str.Length; stringBuilderIndex--)
                 {
                     bottomAcrossStrings[stringBuilderIndex].Append(str[stringIndex]);
                     stringIndex++;
                 }
             }
 
-            for (int i = 1; i < numberOfRows; i ++)
+            for (int i = 1; i < numberOfRows; i++)
             {
                 bottomAcrossStrings[0].Append(bottomAcrossStrings[i]);
             }
@@ -79,19 +79,18 @@ namespace CrackThat
 
         public static string LongestSubStringWithNonRepeatedCharacters(string str)
         {
-            HashSet<char> characterHash = new HashSet<char>();
+            Dictionary<char, int> characterIndexLookup = new Dictionary<char, int>();
             int start, end;
             start = end = 0;
             int maxSubStringLength = 0;
             int subStringLength = 0;
             StringBuilder maxSubString = new StringBuilder();
 
-            while(end < str.Length)
+            while (end < str.Length)
             {
-                if (!characterHash.Contains(str[end]))
+                if (!characterIndexLookup.ContainsKey(str[end]))
                 {
-                    characterHash.Add(str[end]);
-                    end++;
+                    characterIndexLookup.Add(str[end], end);
                 }
                 else
                 {
@@ -102,7 +101,7 @@ namespace CrackThat
                         maxSubStringLength = subStringLength;
                         maxSubString.Clear();
                         maxSubString.Append(str.Substring(start, subStringLength));
-                        start = end;
+                        start = characterIndexLookup[str[end]] + 1; 
                     }
                 }
             }
@@ -138,7 +137,7 @@ namespace CrackThat
                     }
                     else if (pattern[j] == '*')
                     {
-                        while(i + 1 < str.Length && str[i] == str[i+1])
+                        while (i + 1 < str.Length && str[i] == str[i + 1])
                         {
                             i++;
                         }
@@ -154,7 +153,7 @@ namespace CrackThat
                     }
                     else
                     {
-                        if (i == str.Length -1 || j == pattern.Length - 1)
+                        if (i == str.Length - 1 || j == pattern.Length - 1)
                         {
                             return false;
                         }
@@ -171,5 +170,68 @@ namespace CrackThat
             else
                 return false;
         }
+
+        #region tricky bullshit
+
+        public static void PrintFirstNonRepeatedCharacterInStream(string str)
+        {
+            Dictionary<char, int> charLookup = new Dictionary<char, int>();
+            charLookup.Add(str[0], 1);
+            char latestNonRepatingChar = str[0];
+            char previousNonRepeatedChar = str[0];
+
+            Console.Write(str[0] + " ");
+
+            for (int j = 1; j < str.Length; j++ )
+            {
+                // if this is the first time we are seeing a char 
+                if (!charLookup.ContainsKey(str[j]))
+                {
+                    // make it the latest non repeating char
+                    latestNonRepatingChar = str[j];
+
+                    // if previous char has not yet been repeated, print it
+                    if (charLookup[previousNonRepeatedChar] <= 1)
+                    {
+                        Console.Write(previousNonRepeatedChar + " ");
+                    }
+                    else 
+                    {
+                        // else print latest repeated char 
+                        // and update prev repeating char
+
+                        previousNonRepeatedChar = latestNonRepatingChar;
+                        Console.Write(latestNonRepatingChar + " ");
+                    }
+
+                    // add new char to lookup
+                    charLookup.Add(latestNonRepatingChar, 1);
+                }
+                else 
+                {
+                    charLookup[str[j]] = charLookup[str[j]] + 1;
+
+                    if (charLookup[previousNonRepeatedChar] > 1 && charLookup[latestNonRepatingChar] > 1 )
+                    {
+                        Console.Write(-1 + " ");
+                    }
+
+                    else
+                    {
+                        if (charLookup[previousNonRepeatedChar] <= 1)
+                        {
+                            Console.Write((previousNonRepeatedChar + " "));
+                        }
+
+                        else if (charLookup[latestNonRepatingChar] <= 1 )
+                        {
+                            Console.Write((latestNonRepatingChar + " "));
+                            previousNonRepeatedChar = latestNonRepatingChar;
+                        }
+                    }
+                }
+            }
+        }
+        #endregion
     }
 }
