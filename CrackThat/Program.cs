@@ -275,11 +275,9 @@ namespace CrackThat
 
             //StringProblems.PrintFirstNonRepeatedCharacterInStream(b);
 
-            Heap maxHeap = new Heap(4, true);
-            maxHeap.Insert(1);
-            maxHeap.Insert(2);
-            maxHeap.Insert(3);
-            maxHeap.printHeap();
+            int[] arr1 = new int[] { 19, 1, 2 };
+            int[] arr2 = new int[] { 25, 31, 5, 42 };
+            Console.WriteLine(ArrayProblems.FindMedianOfTwoArrays(arr1, arr2));
             Console.ReadKey();
 		}
 

@@ -110,6 +110,75 @@ namespace CrackThat
             return 0;
         }
 
+        public static double FindMedianOfTwoArrays(int[] arr1, int[] arr2)
+        {
+            int heapSize = (arr1.Length + arr2.Length) / 2;
+            Heap maxHeap = new Heap(heapSize, true);
+            Heap minHeap = new Heap(heapSize, false);
+            int i = 0, j = 0;
+            double median = 0;
+
+            while (i < arr1.Length || j <arr2.Length)
+            {
+                if (i < arr1.Length)
+                {
+                    FindMedianOfTwoArraysUtil(arr1[i], ref median, maxHeap, minHeap);
+                    i++;
+                }
+                if (j < arr2.Length)
+                {
+                    FindMedianOfTwoArraysUtil(arr2[j], ref median, maxHeap, minHeap);
+                    j++;
+                }
+            }
+
+            return median;
+        }
+
+        private static void FindMedianOfTwoArraysUtil(int x, ref double median, Heap maxHeap, Heap minHeap)
+        {
+            if (maxHeap.CurrentSize > minHeap.CurrentSize)
+            {
+                if (x > median)
+                {
+                    minHeap.Insert(x);
+                }
+                else 
+                {
+                    minHeap.Insert(maxHeap.Root);
+                    maxHeap.PopFromHeap();
+                    maxHeap.Insert(x);
+                }
+                median = ((double)maxHeap.Root + (double)minHeap.Root) / 2;
+            }
+            else if (maxHeap.CurrentSize < minHeap.CurrentSize)
+            {
+                if (x < median)
+                {
+                    maxHeap.Insert(x);
+                }
+                else
+                {
+                    maxHeap.Insert(minHeap.Root);
+                    minHeap.PopFromHeap();
+                    minHeap.Insert(x);
+                }
+                median = ((double)maxHeap.Root + (double)minHeap.Root) / 2;
+            }
+            else 
+            {
+                if (x < median)
+                {
+                    maxHeap.Insert(x);
+                }
+                else
+                {
+                    minHeap.Insert(x);
+                }
+                median = (double)minHeap.Root;
+            }
+        }
+
         public static Tuple<int, int> FindTwoSum(int[] array, int target)
         {
             Dictionary<int, int> indexValue = new Dictionary<int, int>();
